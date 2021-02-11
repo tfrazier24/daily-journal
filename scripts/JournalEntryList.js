@@ -1,18 +1,23 @@
-import { useJournalEntries } from "./JournalDataProvider.js"
+import { getEntries, useJournalEntries } from "./JournalDataProvider.js"
 import { JournalEntryComponent } from "./JournalEntry.js"
 
 const entryLog = document.querySelector("#entryLog")
 
 export const EntryList = () => {
-    const entries = useJournalEntries();
-    let entryListHTMLString = "";
-
-    for (let i = 0; i < entries.length; i++) { 
-        entryListHTMLString += JournalEntryComponent(entries[i]);
+    getEntries().then(() => {
+        const entries = useJournalEntries();
+        let entryListHTMLString = "";
+    
+        for (let i = 0; i < entries.length; i++) { 
+            entryListHTMLString += JournalEntryComponent(entries[i]);
+        }
+    
+        // console.log(entryListHTMLString);
+    
+        entryLog.innerHTML += `${entryListHTMLString}`
     }
 
-    console.log(entryListHTMLString);
+    )
 
-    entryLog.innerHTML += `${entryListHTMLString}`
     
 };
